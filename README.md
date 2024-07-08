@@ -1,5 +1,5 @@
 # Gmail-Automation
-Project for Gemini API Competition
+### Project for Gemini API Competition
 Ideas/ToDo:
 - Use Gemini API for ranking emails based on importance and
 - Writing response emails.

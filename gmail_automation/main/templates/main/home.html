@@ -3,5 +3,9 @@
 {% block title %} Home Page {% endblock %}
 
 {% block content %}
-    <h1>Welcome to my app {{ name }}</h1>
+    {% if user and is_logged_in %}
+        <h1>Welcome back {{ user }}</h1>
+    {% else %}
+        <h1>Welcome to my app</h1>
+    {% endif %}
 {% endblock %}

@@ -6,11 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
-token.json
-gemini_api.py
+
 
 # Distribution / packaging
 .Python
+gmail_api_scripts/
 build/
 develop-eggs/
 dist/

@@ -47,7 +47,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'users',
-    'rest_framework'
+    'rest_framework',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
 ]
 
 ROOT_URLCONF = 'gmail_automation.urls'
@@ -129,4 +134,23 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
 
+# AllAuth settings
+SOCIALACCOUNT_PROVIDERS = {}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+
+LOGIN_REDIRECT_URL = '/'
+
+# Redirect to home page after signup (requires django-allauth >= 0.18)
+ACCOUNT_SIGNUP_REDIRECT_URL = '/'
+
+# Optionally, you can also set the URL to redirect to after logging out
+LOGOUT_REDIRECT_URL = '/'

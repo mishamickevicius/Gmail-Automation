@@ -7,3 +7,7 @@ Ideas/ToDo:
 - Use Gmail API for this
 - DRF API for backend
 - Django Templates for frontend
+
+
+TODO 
+

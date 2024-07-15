@@ -12,13 +12,13 @@
         {% if is_logged_in %}
             <div class="navlinks">
                 <a href="{% url 'home-page' %}">Home</a>
-                <a href="{% url 'logout' %}">Log Out</a>
+                <a href="{% url 'account_logout' %}">Log Out</a>
             </div>
         {% else %}
             <div class="navlinks">
                 <a href="{% url 'home-page' %}">Home</a>
-                <a href="{% url 'login' %}">Log In</a>
-                <a href="{% url 'signup' %}">Sign Up</a>
+                <a href="{% url 'account_login' %}">Sign In</a>
+                <a href="{% url 'account_signup' %}">Sign Up</a>
             </div>
         {% endif %}
     </div>

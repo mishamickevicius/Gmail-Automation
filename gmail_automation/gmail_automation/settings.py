@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import environ
 import os
+import json
 
 # Environment keys
 env = environ.Env()
@@ -151,7 +152,20 @@ SITE_ID = 1
 
 
 # AllAuth settings
-SOCIALACCOUNT_PROVIDERS = {}
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+            'SCOPE': [
+                'profile',
+                'email',
+                'https://www.googleapis.com/auth/gmail.readonly',
+                'https://mail.google.com/'
+            ],
+            'AUTH_PARAMS': {
+                'access_type': 'online',
+            },
+            'OAUTH_PKCE_ENABLED': True,
+    }
+}
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -177,3 +191,13 @@ DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_REQUIRED = True
+
+# Google Auth
+GOOGLE_OAUTH2_CLIENT_ID = env('GOOGLE_OAUTH2_CLIENT_ID')
+GOOGLE_OAUTH2_CLIENT_SECRET = env('GOOGLE_OAUTH2_CLIENT_SECRET')
+GOOGLE_OAUTH2_REDIRECT_URI = env('GOOGLE_OAUTH2_REDIRECT_URI')
+
+# Google secrets
+CLIENT_SECRETS_JSON = env('CLIENT_SECRETS')
+CLIENT_SECRETS = json.loads(CLIENT_SECRETS_JSON)
+

@@ -5,6 +5,8 @@ from django.conf import settings
 
 from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+
 
 import os
 
@@ -81,7 +83,8 @@ def gmail_auth_callback(request):
         'token_uri': credentials.token_uri,
         'client_id': credentials.client_id,
         'client_secret': credentials.client_secret,
-        'scopes': credentials.scopes
+        'scopes': credentials.scopes,
+        # 'authorize': credentials.authorize,
     }
     print("Credentials: ", request.session['credentials'])
     return HttpResponse('Authorization complete, credentials stored in session')
@@ -101,3 +104,7 @@ def read_emails(request):
         service = build("gmail", 'v1', credentials=creds)
         results = service.users().messages().list(userId="me").execute()
         emails = results.get("messages")
+    except HttpError as error:
+        print(f"error has occurred: {error}")
+
+    return render(request, "main/emails.html", {'emails': emails})

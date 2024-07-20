@@ -12,6 +12,7 @@
         {% if is_logged_in %}
             <div class="navlinks">
                 <a href="{% url 'home-page' %}">Home</a>
+                <a href="{% url 'read-emails' %}">Inbox</a>
                 <a href="{% url 'account_logout' %}">Log Out</a>
             </div>
         {% else %}

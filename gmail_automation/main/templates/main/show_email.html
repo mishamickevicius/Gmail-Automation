@@ -1,0 +1,12 @@
+{% extends "main/base.html" %}
+
+{% block title %} Home Page {% endblock %}
+
+{% block content %}
+    <h3>Subject: {{ subject|safe }}</h3>
+    <p><strong>From:</strong> {{ from }}</p>
+    <p><strong>To</strong>: {{ to }}</p>
+    <p><strong>Date</strong>: {{ date|date:"c" }}</p>
+    <a href="{% url 'reply-email' email_id %}"><strong>Reply</strong></a>
+    <p><strong>Message</strong>: {{ body|safe }}</p>
+{% endblock %}

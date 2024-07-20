@@ -1,15 +1,10 @@
-<!-- templates/emails.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Your Emails</title>
-</head>
-<body>
-    <h1>Your Emails</h1>
-    <ul>
-        {% for email in emails %}
-            <li>{{ email.snippet }}</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends "main/base.html" %}
+
+{% block title %} Inbox {% endblock %}
+
+{% block content %}
+    <h1>Your Inbox</h1>
+    {% for email in emails %}
+        <li><a href="{% url 'show-email' email.id %}">{{ email.subject }}</a></li>
+    {% endfor %}
+{% endblock %}

@@ -6,6 +6,7 @@ from django.conf import settings
 from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from google.oauth2.credentials import Credentials
 
 
 import os
@@ -94,7 +95,8 @@ def read_emails(request):
     if not request.user.is_authenticated:
         return redirect('../accounts/login')
     try:
-        creds = request.session['credentials']
+        creds_dict = request.session['credentials']
+        creds = Credentials.from_authorized_user_info(info=creds_dict)
     # If credentials are not in session then go to auth
     except KeyError:
         return redirect("gmail-auth")
@@ -102,8 +104,11 @@ def read_emails(request):
     try:
         # Calling Gmail API
         service = build("gmail", 'v1', credentials=creds)
-        results = service.users().messages().list(userId="me").execute()
-        emails = results.get("messages")
+        email_list = service.users().messages().list(userId="me", maxResults=10).execute().get('messages')
+        emails = []
+        for email in email_list:
+            get_email = service.users().messages().get(userId="me", id=email.get('id')).execute()
+            emails.append(get_email)
     except HttpError as error:
         print(f"error has occurred: {error}")
 

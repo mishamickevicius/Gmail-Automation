@@ -38,16 +38,14 @@ def main():
         service = build("gmail", 'v1', credentials=creds)
         results = service.users().messages().list(userId="me").execute()
         emails = results.get("messages")
-
+        print(creds)
         if not emails:
             print("No labels found.")
-            return
-        print("Labels:")
+            return 0
         for email in emails[0:1]:
             get_email = service.users().messages().get(userId='me', id=email.get('id')).execute()
-            print(get_email.keys())
-            print(get_email)
-
+            # print(get_email.keys())
+            print(get_email['snippet'])
     except HttpError as error:
         # TODO(developer) - Handle errors from gmail API.
         print(f"An error occurred: {error}")

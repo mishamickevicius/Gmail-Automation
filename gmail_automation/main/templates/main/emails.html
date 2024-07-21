@@ -1,10 +1,25 @@
 {% extends "main/base.html" %}
 
-{% block title %} Inbox {% endblock %}
+{% block title %}Inbox{% endblock %}
 
 {% block content %}
     <h1>Your Inbox</h1>
-    {% for email in emails %}
-        <li><a href="{% url 'show-email' email.id %}">{{ email.subject }}</a></li>
-    {% endfor %}
+    <div class="inbox">
+        {% if emails %}
+            <ul class="email-list">
+                {% for email in emails %}
+                    <li class="email-item">
+                        <a href="{% url 'show-email' email.id %}" class="email-link">
+                            <div class="email-sender">{{ email.sender }}</div>
+                            <div class="email-subject">{{ email.subject }}</div>
+                            <div class="email-snippet">{{ email.snippet }}</div>
+                            <div class="email-date">{{ email.date }}</div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-emails">No emails found in your inbox.</p>
+        {% endif %}
+    </div>
 {% endblock %}

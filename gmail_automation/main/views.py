@@ -1,7 +1,10 @@
+from .forms import EmailForm
+
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import HttpResponse
 from django.conf import settings
+from django.contrib.auth.models import User
 
 from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
@@ -104,14 +107,20 @@ def read_emails(request):
     try:
         # Calling Gmail API
         service = build("gmail", 'v1', credentials=creds)
-        email_list = service.users().messages().list(userId="me", maxResults=25, labelIds=['CATEGORY_PERSONAL']).execute().get('messages')
+        email_list = service.users().messages().list(userId="me", maxResults=10, labelIds=['CATEGORY_PERSONAL']).execute().get('messages')
         emails = []
         for msg in email_list:
             email_id = msg['id']
             email_data = service.users().messages().get(userId='me', id=email_id).execute()
             headers = email_data['payload']['headers']
             subject = [h['value'] for h in headers if h['name'] == 'Subject'][0]
-            emails.append({'id': email_id, 'subject': subject})
+            emails.append({
+                'id': email_data['id'],
+                'sender': next(h for h in email_data['payload']['headers'] if h['name'] == 'From')['value'],
+                'subject': next(h for h in email_data['payload']['headers'] if h['name'] == 'Subject')['value'],
+                'snippet': email_data['snippet'],
+                'date': next(h for h in email_data['payload']['headers'] if h['name'] == 'Date')['value'],
+            })
 
         return render(request, "main/emails.html", {'emails': emails, 'is_logged_in': True})
     except HttpError as error:
@@ -173,13 +182,42 @@ def reply_email(request, email_id):
     except KeyError:
         return redirect("gmail-auth")
 
+    if request.method == 'POST':
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            try:
+                # Send Email
+                service = build('gmail', 'v1', credentials=creds)
+                message = email.message.EmailMessage()
+                message.set_content(form.cleaned_data['message'])
+                message['To'] = form.cleaned_data['to']
+                message['From'] = request.user.email
+                message['Subject'] = form.cleaned_data['subject']
+
+                encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
+
+                create_message = {'raw': encoded_message}
+                send_message = service.users().messages().send(userId='me', body=create_message).execute()
+
+                return redirect("read-emails")
+            except HttpError as error:
+                print(f"Error has occured: {error}")
+                return render(request, 'main/error.html', {'error': error})
+
+    # For GET Method
     # Get generated response from Gemini API
-    print(settings.GEMINI_API_KEY.replace("/", ""))
     genai.configure(api_key=settings.GEMINI_API_KEY.replace("/", ""))
     model = genai.GenerativeModel('gemini-1.5-flash')
     # Get email for context to model
     service = build("gmail", "v1", credentials=creds)
     result = service.users().messages().get(userId='me', id=email_id, format='raw').execute()
     msg_str = base64.urlsafe_b64decode(result['raw'].encode('ASCII')).decode('UTF-8')
-    response = model.generate_content(f"Write a response to this email {msg_str}")
-    return HttpResponse(response.text)
+    response = model.generate_content(f"Write a response from the recipient to this email: {msg_str}. "
+                                      f"If there is many messages in one then write a response for the most recent one."
+                                      f"Do not include the subject line or RE: in the response.")
+    form = EmailForm(initial={'message': str(response.text).format()})
+    return render(request, 'main/reply.html', {
+        "api_response": response,
+        "is_logged_in": True,
+        "email_form": form
+    })

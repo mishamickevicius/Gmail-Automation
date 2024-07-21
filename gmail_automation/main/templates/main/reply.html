@@ -1,0 +1,31 @@
+{% extends "main/base.html" %}
+
+{% block title %} Reply {% endblock %}
+
+{% block content %}
+    <div class="reply-form">
+        <form method="post">
+            {% csrf_token %}
+            {{ email_form.as_p }}
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+{# JS code for resizing text boxes #}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const textareas = document.querySelectorAll('textarea.auto-resize');
+
+            function autoResize() {
+                this.style.height = 'auto';
+                this.style.height = this.scrollHeight + 'px';
+            }
+
+            textareas.forEach(textarea => {
+                textarea.addEventListener('input', autoResize);
+                // Initial resize
+                autoResize.call(textarea);
+            });
+        });
+    </script>
+{% endblock %}

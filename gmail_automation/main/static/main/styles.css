@@ -1,0 +1,223 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+h1, h2, h3 {
+    color: #333;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+/* Add some basic form styling */
+form {
+    margin-top: 1rem;
+}
+
+input[type="text"], input[type="email"], input[type="password"], textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button, input[type="submit"] {
+    background-color: #333;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* Navbar styles */
+.navbar {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.navbar .navlinks {
+    display: flex;
+    gap: 15px;
+}
+
+.navbar .navlinks a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar .navlinks a:hover {
+    background-color: #575757;
+}
+
+.navbar .navlinks a.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.inbox-container {
+    width: 100%;
+    max-width: 800px;
+}
+
+.inbox-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.inbox {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 100%;
+}
+
+.email-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.email-item {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.email-item:last-child {
+    border-bottom: none;
+}
+
+.email-link {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.email-link:hover {
+    background-color: #f5f5f5;
+}
+
+.email-sender, .email-subject, .email-snippet, .email-date {
+    padding: 5px 10px;
+}
+
+.email-sender {
+    width: 25%;
+    font-weight: bold;
+}
+
+.email-subject {
+    width: 75%;
+    font-weight: bold;
+}
+
+.email-snippet {
+    width: 100%;
+    color: #666;
+    font-size: 0.9em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.email-date {
+    width: 100%;
+    text-align: right;
+    color: #999;
+    font-size: 0.8em;
+}
+
+.no-emails {
+    padding: 20px;
+    text-align: center;
+    color: #666;
+}
+
+/* New styles for the reply form */
+.reply-form {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.reply-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reply-form p {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.reply-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.reply-form input[type="text"],
+.reply-form input[type="email"],
+.reply-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.reply-form textarea {
+    min-height: 100px;
+    resize: none;
+    overflow-y: hidden;
+}
+
+.reply-form button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.reply-form textarea.auto-resize {
+    min-height: 100px;
+    resize: none;
+    overflow-y: hidden;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}

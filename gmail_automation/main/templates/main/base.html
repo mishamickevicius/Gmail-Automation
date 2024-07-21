@@ -8,23 +8,22 @@
 </head>
 <body>
 {# Navbar that will be based on if user is logged in or not #}
-    <div class="navbar">
-        {% if is_logged_in %}
-            <div class="navlinks">
-                <a href="{% url 'home-page' %}">Home</a>
-                <a href="{% url 'read-emails' %}">Inbox</a>
-                <a href="{% url 'account_logout' %}">Log Out</a>
-            </div>
-        {% else %}
-            <div class="navlinks">
-                <a href="{% url 'home-page' %}">Home</a>
-                <a href="{% url 'account_login' %}">Sign In</a>
-                <a href="{% url 'account_signup' %}">Sign Up</a>
-            </div>
-        {% endif %}
+   <div class="navbar">
+        <div class="navlinks">
+            {% if is_logged_in %}
+                <a href="{% url 'home-page' %}" class="{% if request.resolver_match.url_name == 'home-page' %}active{% endif %}">Home</a>
+                <a href="{% url 'read-emails' %}" class="{% if request.resolver_match.url_name == 'read-emails' %}active{% endif %}">Inbox</a>
+                <a href="{% url 'account_logout' %}" class="{% if request.resolver_match.url_name == 'account_logout' %}active{% endif %}">Log Out</a>
+            {% else %}
+                <a href="{% url 'home-page' %}" class="{% if request.resolver_match.url_name == 'home-page' %}active{% endif %}">Home</a>
+                <a href="{% url 'account_login' %}" class="{% if request.resolver_match.url_name == 'account_login' %}active{% endif %}">Sign In</a>
+                <a href="{% url 'account_signup' %}" class="{% if request.resolver_match.url_name == 'account_signup' %}active{% endif %}">Sign Up</a>
+            {% endif %}
+        </div>
     </div>
-
-    {% block content %}
-    {% endblock %}
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
 </html>

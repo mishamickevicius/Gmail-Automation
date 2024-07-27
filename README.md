@@ -5,11 +5,9 @@ Ideas/ToDo:
 - Writing response emails.
 - Use ML to detect spam and phishing attempts
 - Use Gmail API for this
-- DRF API for backend
-- Django Templates for frontend
+- Django for Full Webapp
 
 
 TODO 
 - Get Data for ML
-- Styling 
-- API from user
+- Styling

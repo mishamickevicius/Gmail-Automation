@@ -7,6 +7,15 @@
     <p><strong>From:</strong> {{ from }}</p>
     <p><strong>To</strong>: {{ to }}</p>
     <p><strong>Date</strong>: {{ date|date:"c" }}</p>
-    <a href="{% url 'reply-email' email_id %}"><strong>Reply</strong></a>
+
+    {% if is_malicious == 0 %}
+        <h3>Email Is Most Likely Safe</h3>
+        <a href="{% url 'reply-email' email_id %}"><strong>Reply</strong></a>
+    {% else %}
+        <div class="malicious-warning">
+            This email may be malicious. Please exercise caution.
+        </div>
+    {% endif %}
+
     <p><strong>Message</strong>: {{ body|safe }}</p>
 {% endblock %}

@@ -221,3 +221,29 @@ button:hover, input[type="submit"]:hover {
     border-radius: 4px;
     font-size: 16px;
 }
+
+.malicious-warning {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin: 10px 0;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    animation: pulse 2s infinite;
+}
+
+.malicious-warning::before {
+    content: "⚠️";
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}

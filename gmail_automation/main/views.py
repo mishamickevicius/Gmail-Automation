@@ -1,4 +1,5 @@
 from .forms import EmailForm
+from .EmailScanner import EmailScanner
 
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -11,7 +12,6 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from google.oauth2.credentials import Credentials
 import google.generativeai as genai
-
 
 import os
 import base64
@@ -157,7 +157,8 @@ def show_email(request, email_id):
                     email_body = part.get_payload(decode=True).decode('utf-8')
         else:
             email_body = msg.get_payload(decode=True).decode('utf-8')
-
+        email_scanner = EmailScanner()
+        email_scan_result = email_scanner.regular_scan(str(email_subject), str(email_body))
         context = {
             'subject': email_subject,
             'from': email_from,
@@ -165,7 +166,8 @@ def show_email(request, email_id):
             'date': email_date,
             'body': email_body,
             'is_logged_in': True,
-            'email_id':email_id,
+            'email_id': email_id,
+            'is_malicious': email_scan_result
         }
         return render(request, 'main/show_email.html', context)
     except Exception as e:

@@ -6,8 +6,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 class EmailScanner:
     def __init__(self):
-        self.vectorizer:TfidfVectorizer = load('/Users/misham/Desktop/Projects/Gmail-Automation/gmail_automation/vectorizer.joblib')
-        self.model:LinearSVC = load('/Users/misham/Desktop/Projects/Gmail-Automation/gmail_automation/model.joblib')
+        self.vectorizer: TfidfVectorizer = load('/home/dude/Desktop/Projects/Gmail-Automation/gmail_automation/vectorizer.joblib')
+        self.model: LinearSVC = load('/home/dude/Desktop/Projects/Gmail-Automation/gmail_automation/model.joblib')
 
     def regular_scan(self, subject:str, body:str):
         full_msg = subject.lower() + " " + body.lower()
